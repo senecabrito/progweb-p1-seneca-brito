@@ -2,21 +2,26 @@ import { Conta } from "./Conta.js";
 import { ContaCorrente } from "./ContaCorrente.js";
 import { ContaPoupanca } from "./ContaPoupanca.js";
 
-const cc = new ContaCorrente("0001", "Ana Lima", 500);
-const cp = new ContaPoupanca("0002", "Bruno Souza");
+const contas = [
+  new ContaCorrente("0001", "Ana Lima", 500),
+  new ContaPoupanca("0002", "Bruno Souza"),
+];
 
-cc.depositar(100);
-cc.sacar(400);
-console.log("CC saldo:", cc.saldo);
+contas.forEach((conta) => conta.depositar(1000));
 
-cp.depositar(1000);
-console.log("Rendeu:", cp.render(), "→ saldo:", cp.saldo);
-
-try {
-  cp.sacar(5000);
-} catch (erro) {
-  console.log("Poupança →", erro.message);
+function fecharMes(listaDeContas) {
+  for (const conta of listaDeContas) {
+    const tarifa = conta.tarifaMensal();
+    if (tarifa > 0) conta.sacar(tarifa);
+    console.log(`${conta} (tarifa: R$ ${tarifa.toFixed(2)})`);
+  }
 }
 
-console.log(cc instanceof ContaCorrente, cc instanceof Conta);
-console.log(Object.getPrototypeOf(ContaCorrente.prototype) === Conta.prototype);
+fecharMes(contas);
+console.log("Extrato da conta corrente:", contas[0].extrato);
+
+try {
+  new Conta("0003", "Carla Dias");
+} catch (erro) {
+  console.log("Erro esperado →", erro.message);
+}
