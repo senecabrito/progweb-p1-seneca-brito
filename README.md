@@ -5,7 +5,8 @@
 
 ## Sobre
 
-Aplicação fullstack (API Express em camadas + SQLite + frontend Bootstrap com Vanilla JS). O domínio do projeto será definido na Semana 2.
+Aplicação fullstack (API Express em camadas + SQLite + frontend Bootstrap com Vanilla JS).
+**Domínio:** gestão de uma clínica veterinária. A modelagem está em [MODELAGEM.md](MODELAGEM.md).
 
 ## Estrutura
 
