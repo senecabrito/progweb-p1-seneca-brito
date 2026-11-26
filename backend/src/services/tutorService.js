@@ -1,4 +1,5 @@
 import { tutorModel } from '../models/tutorModel.js';
+import { petModel } from '../models/petModel.js';
 import { erro } from '../utils/erro.js';
 
 export const tutorService = {
@@ -30,6 +31,9 @@ export const tutorService = {
   },
 
   remover(id) {
+    if (petModel.listarPorTutor(id).length > 0) {
+      throw erro(409, 'Tutor possui pets. Remova os pets primeiro.');
+    }
     if (!tutorModel.remover(id)) throw erro(404, 'Tutor não encontrado');
   },
 };
