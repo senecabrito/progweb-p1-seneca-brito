@@ -1,35 +1,38 @@
-let tutores = [];
-let proximoId = 1;
+import { db } from '../db.js';
 
 export const tutorModel = {
   listar() {
-    return tutores;
+    return db.prepare('SELECT * FROM tutores ORDER BY id').all();
   },
 
   buscarPorId(id) {
-    return tutores.find((tutor) => tutor.id === id) ?? null;
+    return db.prepare('SELECT * FROM tutores WHERE id = ?').get(id) ?? null;
   },
 
   existeEmail(email, ignorarId = null) {
-    return tutores.some((tutor) => tutor.email === email && tutor.id !== ignorarId);
+    const linha = ignorarId === null
+      ? db.prepare('SELECT 1 FROM tutores WHERE email = ?').get(email)
+      : db.prepare('SELECT 1 FROM tutores WHERE email = ? AND id <> ?').get(email, ignorarId);
+    return linha !== undefined;
   },
 
   inserir({ nome, email, telefone }) {
-    const novo = { id: proximoId++, nome, email, telefone: telefone ?? null };
-    tutores.push(novo);
-    return novo;
+    const r = db
+      .prepare('INSERT INTO tutores (nome, email, telefone) VALUES (?, ?, ?)')
+      .run(nome, email, telefone ?? null);
+    return this.buscarPorId(r.lastInsertRowid);
   },
 
   atualizar(id, dados) {
-    const indice = tutores.findIndex((tutor) => tutor.id === id);
-    if (indice === -1) return null;
-    tutores[indice] = { ...tutores[indice], ...dados, id };
-    return tutores[indice];
+    const atual = this.buscarPorId(id);
+    if (!atual) return null;
+    const novo = { ...atual, ...dados };
+    db.prepare('UPDATE tutores SET nome = ?, email = ?, telefone = ? WHERE id = ?')
+      .run(novo.nome, novo.email, novo.telefone ?? null, id);
+    return this.buscarPorId(id);
   },
 
   remover(id) {
-    const quantidadeAntes = tutores.length;
-    tutores = tutores.filter((tutor) => tutor.id !== id);
-    return tutores.length < quantidadeAntes;
+    return db.prepare('DELETE FROM tutores WHERE id = ?').run(id).changes > 0;
   },
 };
