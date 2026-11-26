@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clínica Veterinária · Painel</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-body-tertiary">
+  <header class="bg-primary text-white py-3 mb-4">
+    <div class="container">
+      <h1 class="h3 mb-0">Clínica Veterinária · Painel</h1>
+      <p class="mb-0 small">Projeto 1 · SPA em Vanilla JS</p>
+    </div>
+  </header>
+  <main class="container">
+    <div id="aviso" class="alert d-none" role="status" aria-live="polite"></div>
+
+    <section class="row g-4 mb-5" aria-labelledby="titulo-tutores">
+      <div class="col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-header"><h2 id="titulo-tutores" class="h5 mb-0">Tutores</h2></div>
+          <form id="form-tutor" class="card-body" novalidate>
+            <div class="mb-3"><label for="tutor-nome" class="form-label">Nome</label><input id="tutor-nome" name="nome" class="form-control" required></div>
+            <div class="mb-3"><label for="tutor-email" class="form-label">E-mail</label><input id="tutor-email" name="email" type="email" class="form-control" required></div>
+            <div class="mb-3"><label for="tutor-telefone" class="form-label">Telefone (opcional)</label><input id="tutor-telefone" name="telefone" class="form-control"></div>
+            <div class="d-flex gap-2"><button id="tutor-salvar" type="submit" class="btn btn-primary">Cadastrar tutor</button><button id="tutor-cancelar" type="button" class="btn btn-outline-secondary d-none">Cancelar</button></div>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-8"><div class="card shadow-sm"><div class="card-body">
+        <div id="tutores-carregando" class="text-center py-4"><div class="spinner-border text-primary" aria-hidden="true"></div><p class="text-muted mt-2 mb-0">Carregando tutores…</p></div>
+        <div id="tutores-erro" class="alert alert-danger mb-0 d-none" role="alert"><p id="tutores-erro-msg" class="mb-2"></p><button id="tutores-recarregar" type="button" class="btn btn-sm btn-outline-danger">Tentar de novo</button></div>
+        <p id="tutores-vazio" class="text-muted text-center py-4 mb-0 d-none">Nenhum tutor ainda. Cadastre o primeiro no formulário.</p>
+        <div id="tutores-sucesso" class="table-responsive d-none"><table class="table table-hover align-middle mb-0"><thead><tr><th>#</th><th>Nome</th><th>E-mail</th><th>Telefone</th><th class="text-end">Ações</th></tr></thead><tbody id="tutores-linhas"></tbody></table></div>
+      </div></div></div>
+    </section>
+
+    <section class="row g-4 mb-5" aria-labelledby="titulo-pets">
+      <div class="col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-header"><h2 id="titulo-pets" class="h5 mb-0">Pets</h2></div>
+          <form id="form-pet" class="card-body" novalidate>
+            <div class="mb-3"><label for="pet-tutor" class="form-label">Tutor</label><select id="pet-tutor" name="tutorId" class="form-select" required><option value="">Selecione…</option></select></div>
+            <div class="mb-3"><label for="pet-nome" class="form-label">Nome</label><input id="pet-nome" name="nome" class="form-control" required></div>
+            <div class="mb-3"><label for="pet-especie" class="form-label">Espécie</label><select id="pet-especie" name="especie" class="form-select" required><option value="">Selecione…</option><option value="cão">Cão</option><option value="gato">Gato</option><option value="ave">Ave</option><option value="outro">Outro</option></select></div>
+            <div class="mb-3"><label for="pet-raca" class="form-label">Raça (opcional)</label><input id="pet-raca" name="raca" class="form-control"></div>
+            <div class="mb-3"><label for="pet-nascimento" class="form-label">Data de nascimento (opcional)</label><input id="pet-nascimento" name="dataNascimento" type="date" class="form-control"></div>
+            <div class="d-flex gap-2"><button id="pet-salvar" type="submit" class="btn btn-primary">Cadastrar pet</button><button id="pet-cancelar" type="button" class="btn btn-outline-secondary d-none">Cancelar</button></div>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-8"><div class="card shadow-sm"><div class="card-body">
+        <div id="pets-carregando" class="text-center py-4"><div class="spinner-border text-primary" aria-hidden="true"></div><p class="text-muted mt-2 mb-0">Carregando pets…</p></div>
+        <div id="pets-erro" class="alert alert-danger mb-0 d-none" role="alert"><p id="pets-erro-msg" class="mb-2"></p><button id="pets-recarregar" type="button" class="btn btn-sm btn-outline-danger">Tentar de novo</button></div>
+        <p id="pets-vazio" class="text-muted text-center py-4 mb-0 d-none">Nenhum pet ainda. Cadastre o primeiro no formulário.</p>
+        <div id="pets-sucesso" class="table-responsive d-none"><table class="table table-hover align-middle mb-0"><thead><tr><th>#</th><th>Pet</th><th>Espécie</th><th>Raça</th><th>Tutor</th><th class="text-end">Ações</th></tr></thead><tbody id="pets-linhas"></tbody></table></div>
+      </div></div></div>
+    </section>
+  </main>
+  <footer class="container text-muted small pb-4">Programação Web · Projeto 1 · Semana 4</footer>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
